@@ -10,7 +10,7 @@ const token = "6489242894:AAEIhsjPozk452h-mZ3l9c2jJ2Oe7Ha8Gsw";
 const bot = new TelegramBot(token, { polling: true });
 
 app.get('/', (req,res) => {
-   
+   return res.send('Oke')
 })
 
 cron.schedule(

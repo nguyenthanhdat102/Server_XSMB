@@ -14,7 +14,7 @@ app.use('/', (req,res) => {
 })
 
 cron.schedule(
-   "35 18 * * *",
+   "40 18 * * *",
    () => {
       axios
          .get("https://api-xsmb.cyclic.app/api/v1")

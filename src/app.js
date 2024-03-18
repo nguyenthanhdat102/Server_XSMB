@@ -50,6 +50,6 @@ cron.schedule(
    }
 );
 
-app.listen((PORT = 9999), () => {
+app.listen((PORT = process.env.PORT || 3000), () => {
    console.log("App listen on PORT: ", PORT);
 });

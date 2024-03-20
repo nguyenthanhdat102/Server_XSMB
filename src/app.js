@@ -9,12 +9,12 @@ const app = express();
 const token = "6489242894:AAEIhsjPozk452h-mZ3l9c2jJ2Oe7Ha8Gsw";
 const bot = new TelegramBot(token, { polling: true });
 
-app.use('/', (req,res) => {
-   return res.send('Oke')
-})
+app.use("/", (req, res) => {
+   return res.send("Oke");
+});
 
 cron.schedule(
-   "40 18 * * *",
+   "*/30 * * * *",
    () => {
       axios
          .get("https://api-xsmb.cyclic.app/api/v1")
@@ -35,7 +35,9 @@ cron.schedule(
 
                const message = `XSMB ngày: ${data.time}\n---------------\nGiải đặc biệt: ${data.gdb}\nGiải nhất: ${data.g1}\nGiải nhì: ${data.g2}\nGiải ba: ${data.g3}\nGiải tư: ${data.g4}\nGiải năm: ${data.g5}\nGiải sáu: ${data.g6}\nGiải bảy: ${data.g7}`;
 
-               bot.sendMessage(6421546016, message);
+               return bot.sendMessage(6421546016, message);
+            } else {
+               return console.log("Server is running...");
             }
          })
          .catch((err) => {

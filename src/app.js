@@ -35,9 +35,9 @@ cron.schedule(
 
                const message = `XSMB ngày: ${data.time}\n---------------\nGiải đặc biệt: ${data.gdb}\nGiải nhất: ${data.g1}\nGiải nhì: ${data.g2}\nGiải ba: ${data.g3}\nGiải tư: ${data.g4}\nGiải năm: ${data.g5}\nGiải sáu: ${data.g6}\nGiải bảy: ${data.g7}`;
 
-               return bot.sendMessage(6421546016, message);
+               bot.sendMessage(6421546016, message);
             } else {
-               return console.log("Server is running...");
+               console.log("Server is running...");
             }
          })
          .catch((err) => {

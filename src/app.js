@@ -5,10 +5,7 @@ const cron = require("node-cron");
 require('dotenv').config()
 
 const app = express();
-
-// TelegramBotToken
-const token = "6489242894:AAEIhsjPozk452h-mZ3l9c2jJ2Oe7Ha8Gsw";
-const bot = new TelegramBot(token, { polling: true });
+const bot = new TelegramBot(process.env.BOT_TOKEN, { polling: true });
 
 app.use("/", (req, res) => {
    return res.send("Oke");

@@ -2,7 +2,8 @@ const express = require("express");
 const TelegramBot = require("node-telegram-bot-api");
 const axios = require("axios");
 const cron = require("node-cron");
-require('dotenv').config()
+require("dotenv").config();
+const request = require("request");
 
 const app = express();
 const bot = new TelegramBot(process.env.BOT_TOKEN, { polling: true });
@@ -12,12 +13,28 @@ app.use("/", (req, res) => {
 });
 
 cron.schedule(
-   "*/30 * * * *",
+   "*/15 * * * *",
    () => {
+      request("https://server-xsmb.onrender.com", (error, response, body) => {
+         if (error) {
+            console.error(error);
+         } else {
+            console.log("Server is up and running!");
+         }
+      });
       axios
          .get("https://api-xsmb.cyclic.app/api/v1")
          .then((res) => {
-            if (res.data && res.data.countNumbers === 27) {
+            const now = new Date();
+            const hour = now.getHours();
+            const minute = now.getMinutes();
+            if (
+               res.data &&
+               hour >= 18 &&
+               minute >= 36 &&
+               hour <= 19 &&
+               minute <= 36
+            ) {
                const result = res?.data?.results;
                const data = {
                   time: res?.data?.time,
@@ -32,8 +49,6 @@ cron.schedule(
                };
                const message = `XSMB ngày: ${data.time}\n---------------\nGiải đặc biệt: ${data.gdb}\nGiải nhất: ${data.g1}\nGiải nhì: ${data.g2}\nGiải ba: ${data.g3}\nGiải tư: ${data.g4}\nGiải năm: ${data.g5}\nGiải sáu: ${data.g6}\nGiải bảy: ${data.g7}`;
                bot.sendMessage(6421546016, message);
-            } else {
-               console.log("Server is running...");
             }
          })
          .catch((err) => {
@@ -51,5 +66,3 @@ cron.schedule(
 app.listen((PORT = process.env.PORT || 3000), () => {
    console.log("App listen on PORT: ", PORT);
 });
-
-

@@ -2,6 +2,7 @@ const express = require("express");
 const TelegramBot = require("node-telegram-bot-api");
 const axios = require("axios");
 const cron = require("node-cron");
+require('dotenv').config()
 
 const app = express();
 
@@ -32,9 +33,7 @@ cron.schedule(
                   g6: result?.G6.join(" ").toString(),
                   g7: result?.G7.join(" ").toString(),
                };
-
                const message = `XSMB ngày: ${data.time}\n---------------\nGiải đặc biệt: ${data.gdb}\nGiải nhất: ${data.g1}\nGiải nhì: ${data.g2}\nGiải ba: ${data.g3}\nGiải tư: ${data.g4}\nGiải năm: ${data.g5}\nGiải sáu: ${data.g6}\nGiải bảy: ${data.g7}`;
-
                bot.sendMessage(6421546016, message);
             } else {
                console.log("Server is running...");
@@ -55,3 +54,5 @@ cron.schedule(
 app.listen((PORT = process.env.PORT || 3000), () => {
    console.log("App listen on PORT: ", PORT);
 });
+
+

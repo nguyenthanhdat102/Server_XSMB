@@ -60,8 +60,8 @@ pipeline {
                             if [[ ! "\$(docker images -q ${IMAGE_NAME})" == "" ]]; then docker rmi -f ${IMAGE_NAME}; fi
                             docker tag \$(docker image inspect -f '{{ .ID }}' ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest) ${IMAGE_NAME}
                             if ! docker network inspect "${DOCKER_NETWORK}" >/dev/null 2>&1; then docker network create "${DOCKER_NETWORK}"; fi
-                            docker run --name ${CONTAINER_NAME} --env-file /var/opt/production/xsmb/.env -dp ${HOST_PORT}:${CONTAINER_PORT} --network ${DOCKER_NETWORK} ${IMAGE_NAME}
-                        EOF
+                            docker run --name ${CONTAINER_NAME} --env-file /var/production/xsmb/.env -dp ${HOST_PORT}:${CONTAINER_PORT} --network ${DOCKER_NETWORK} ${IMAGE_NAME}
+                        
                     """
                 }
             }

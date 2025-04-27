@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKERHUB_USERNAME = 'truongwf1204'
         DOCKERHUB_PASSWORD = 'Truong@1204'
-        SSH_HOST = '46.137.232.177'
+        SSH_HOST = '13.229.116.105'
         SSH_USERNAME = 'ubuntu'
         SSH_PORT = '22'
         IMAGE_NAME = 'xsmb'

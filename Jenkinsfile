@@ -53,7 +53,7 @@ pipeline {
             steps {
                 sshagent (credentials: ['ec2-key']) {
                     sh """
-                        ssh -o StrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -oStrictHostKeyChecking=no -p ${SSH_PORT} ${SSH_USERNAME}@${SSH_HOST} <<EOF
+                        ssh -o StrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -p ${SSH_PORT} ${SSH_USERNAME}@${SSH_HOST} <<EOF
                             echo "${DOCKERHUB_PASSWORD}" | docker login --username ${DOCKERHUB_USERNAME} --password-stdin
                             docker pull ${DOCKERHUB_USERNAME}/${IMAGE_NAME}
                             if [ \$(docker ps -q -f name=${CONTAINER_NAME}) ]; then docker rm -f ${CONTAINER_NAME}; fi

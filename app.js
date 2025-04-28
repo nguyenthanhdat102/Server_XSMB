@@ -8,7 +8,26 @@ const nodeCron = require('node-cron');
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, { polling: true });
+// Thay đổi phần khởi tạo bot
+const bot = new TelegramBot(process.env.TELEGRAM_BOT_TOKEN, { 
+  polling: true,
+  // Thêm các options để xử lý lỗi polling
+  webHook: {
+    autoOpen: false,
+    port: process.env.PORT || 3000
+  }
+});
+
+// Thêm xử lý khi có lỗi polling
+bot.on('polling_error', (error) => {
+  console.log('Lỗi polling:', error.message);
+});
+
+// Thêm xử lý khi ứng dụng kết thúc
+process.on('SIGINT', () => {
+  bot.stopPolling();
+  process.exit();
+});
 
 //Dữ liệu chính
 async function getDataXSMB(chatID) {

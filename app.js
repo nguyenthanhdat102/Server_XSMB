@@ -40,7 +40,7 @@ bot.setMyCommands([
   { command: '/moinhat', description: 'Thông tin xổ số mới nhất' },
   { command: '/start', description: 'Bắt đầu sử dụng bot' },
   { command: '/menu', description: 'Hiển thị menu các lệnh' },
-  { command: '/help', description: 'Hướng dẫn sử dụng bot' },
+  // { command: '/help', description: 'Hướng dẫn sử dụng bot' },
 ]);
 
 // Câu chào mừng khi người dùng bắt đầu trò chuyện với bot
@@ -49,54 +49,7 @@ bot.onText(/\/start/, (msg) => {
   bot.sendMessage(chatId, 'Xin chào! Tôi là một bot XSMB. Hãy gửi cho tôi một câu hỏi và tôi sẽ trả lời nó.');
 });
 
-// ===============================MENU=================================
-bot.onText(/\/menu/, (msg) => {
-  const chatId = msg.chat.id;
-  // Tạo Inline Keyboard
-  const options = {
-    reply_markup: {
-      inline_keyboard: [
-        [
-          { text: 'API Token', callback_data: 'api_token' },
-          { text: 'Chat ID', callback_data: 'chat_id' },
-        ],
-        [
-          { text: 'Bot Settings', callback_data: 'bot_settings' },
-          { text: 'Payments', callback_data: 'payments' },
-        ],
-        [
-          { text: 'Transfer Ownership', callback_data: 'transfer_ownership' },
-          { text: 'Delete Bot', callback_data: 'delete_bot' },
-        ],
-      ],
-    },
-  };
-
-  bot.sendMessage(chatId, 'What do you want to do with the bot?', options);
-});
-
-// Xử lý các sự kiện khi người dùng nhấn vào các nút
-bot.on('callback_query', (query) => {
-  const chatId = query.message.chat.id;
-  const data = query.data;
-
-  if (data === 'api_token') {
-    bot.sendMessage(chatId, 'You selected: API Token');
-  } else if (data === 'chat_id') {
-    bot.sendMessage(chatId, 'Your Chat ID is: ' + chatId);
-  } else if (data === 'bot_settings') {
-    bot.sendMessage(chatId, 'You selected: Bot Settings');
-  } else if (data === 'payments') {
-    bot.sendMessage(chatId, 'You selected: Payments');
-  } else if (data === 'transfer_ownership') {
-    bot.sendMessage(chatId, 'You selected: Transfer Ownership');
-  } else if (data === 'delete_bot') {
-    bot.sendMessage(chatId, 'You selected: Delete Bot');
-  }
-});
-
-
-
+// Hiển thị kết quá xổ số miền bắc mới nhất
 bot.onText(/\/moinhat/, (msg) => {
   const chatId = msg.chat.id;
   getDataXSMB(chatId);
@@ -105,6 +58,9 @@ bot.onText(/\/moinhat/, (msg) => {
 // Lên lịch chạy hàm getDataXSMB mỗi ngày vào lúc 18h40p hàng ngày
 nodeCron.schedule('40 18 * * *', () => {
   getDataXSMB(process.env.CHAT_ID)
+}, {
+  scheduled: true,
+  timezone: "Asia/Ho_Chi_Minh"
 })
 
 app.listen(port = process.env.PORT || 3000, () => {
